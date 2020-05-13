@@ -8,15 +8,23 @@ void Board::setup(){
 // on fixe les pin en entree et en sorite en fonction des capteurs/actionneurs mis sur la carte
   pinMode(1,INPUT);
   pinMode(0,OUTPUT);
+  pinMode(2,INPUT);
 }
 
 // la boucle de controle arduino
 void Board::loop(){
   char buf[100];
   int val;
+  int lum; //pour la luminosite
   static int cpt=0;
   static int bascule=0;
   int i=0;
+  
+  //gestion de la luminosite
+  lum=analogRead(2);
+  sprintf(buf,"luminosite %d",lum);
+  Serial.println(buf);
+
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
     val=analogRead(1);
@@ -36,6 +44,7 @@ void Board::loop(){
   else
     digitalWrite(0,LOW);
   bascule=1-bascule;
+  
   
 }
 

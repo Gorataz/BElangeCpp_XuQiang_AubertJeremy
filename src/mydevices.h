@@ -26,12 +26,17 @@ public:
   virtual void run();
 };
 
-// CREATION ETUDIANT
+// capteur analogique de luminosite, il herite de Device
 class AnalogSensorLuminosity: public Device
 {
   private:
+  //indique la luminosite (en lux) recu par le capteur
     int lum;
   public:
+    //constructeur
+    AnalogSensorLuminosity(int luminosite=luminosite_environnement); 
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
 };
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
