@@ -13,6 +13,9 @@ void Board::setup(){
 
 // la boucle de controle arduino
 void Board::loop(){
+  //Rajout d'un delai de 1s afin d'avoir les bonnes valeurs des capteurs au debut. 
+  sleep(1);
+
   char buf[100];
   int val;
   int lum; //pour la luminosite
