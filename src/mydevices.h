@@ -1,5 +1,6 @@
 #ifndef MYDEVICES_H
 #define MYDEVICES_H
+#define luminosite_environnement 200 //200 lux
 
 #include <iostream>
 #include <thread>
@@ -23,6 +24,14 @@ public:
   AnalogSensorTemperature(int d,int  t);
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
+};
+
+// CREATION ETUDIANT
+class AnalogSensorLuminosity: public Device
+{
+  private:
+    int lum;
+  public:
 };
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
