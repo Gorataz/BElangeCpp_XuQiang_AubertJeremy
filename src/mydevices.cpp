@@ -24,10 +24,7 @@ void AnalogSensorLuminosity::run()
   while(1)
   {
     if(ptrmem!=NULL)
-    {  
-      cout<<lum<<endl;
       *ptrmem=lum;
-    }
     sleep(1);
   }
 }

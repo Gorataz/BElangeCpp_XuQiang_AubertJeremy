@@ -20,10 +20,7 @@ void Board::loop(){
   static int bascule=0;
   int i=0;
   
-  //gestion de la luminosite
-  lum=analogRead(2);
-  sprintf(buf,"luminosite %d",lum);
-  Serial.println(buf);
+  
 
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
@@ -45,6 +42,10 @@ void Board::loop(){
     digitalWrite(0,LOW);
   bascule=1-bascule;
   
+  //gestion de la luminosite
+  lum=analogRead(2);
+  sprintf(buf,"luminosite %d",lum);
+  Serial.println(buf);
   
 }
 
