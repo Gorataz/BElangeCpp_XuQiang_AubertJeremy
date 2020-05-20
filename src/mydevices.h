@@ -1,6 +1,7 @@
 #ifndef MYDEVICES_H
 #define MYDEVICES_H
 #define luminosite_environnement 200 //200 lux
+#define luminosite_LED 30 //30 lux, correspond à l'augmentation de luminosité 
 
 #include <iostream>
 #include <thread>
@@ -8,36 +9,6 @@
 #include <string.h>
 #include "core_simulation.h"
 
-
-// exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Device {
-private:
-  // fait osciller la valeur du cpateur de 1
-  int alea;
-  // valeur de temperature mesuree
-  int val;
-  // temps entre 2 prises de valeurs
-  int temps;
-  
-public:
-  //constructeur ne pas oublier d'initialiser la classe mere
-  AnalogSensorTemperature(int d,int  t);
-  // thread representant le capteur et permettant de fonctionner independamment de la board
-  virtual void run();
-};
-
-// capteur analogique de luminosite, il herite de Device
-class AnalogSensorLuminosity: public Device
-{
-  private:
-  //indique la luminosite (en lux) recu par le capteur
-    int lum;
-  public:
-    //constructeur
-    AnalogSensorLuminosity(int luminosite=luminosite_environnement); 
-    // thread representant le capteur et permettant de fonctionner independamment de la board
-    virtual void run();
-};
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
@@ -48,8 +19,10 @@ private:
   int temps;
   
 public:
-    // initialisation du temps de rafraichiisement
+    // initialisation du temps de rafraichissement
   DigitalActuatorLED(int t);
+  //Permet de renvoyer l'etat de la LED à une autre fonction
+  int StateLED();
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
 };
@@ -66,5 +39,6 @@ public:
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
+
 
 #endif

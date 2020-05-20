@@ -3,34 +3,13 @@
 
 using namespace std;
 
-//classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
-  alea=1;
-}
-
-void AnalogSensorTemperature::run(){
-  while(1){
-    alea=1-alea;
-    if(ptrmem!=NULL)
-      *ptrmem=val+alea;
-    sleep(temps);
-  }
-}
-//classe AnalogSensorLuminosity
-AnalogSensorLuminosity::AnalogSensorLuminosity(int luminosite):Device(),lum(luminosite){}
-
-void AnalogSensorLuminosity::run()
-{
-  while(1)
-  {
-    if(ptrmem!=NULL)
-      *ptrmem=lum;
-    sleep(1);
-  }
-}
-
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int t):Device(),state(LOW),temps(t){
+}
+
+int DigitalActuatorLED::StateLED()
+{
+  return(state);
 }
 
 void DigitalActuatorLED::run(){
@@ -58,8 +37,4 @@ void I2CActuatorScreen::run(){
     sleep(1);
     }
 }
-
-
-
-
 
