@@ -38,3 +38,8 @@ void I2CActuatorScreen::run(){
     }
 }
 
+//classe AnalogActuatorServo
+AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
+
+
+//classe AnalogSensorUltrason
