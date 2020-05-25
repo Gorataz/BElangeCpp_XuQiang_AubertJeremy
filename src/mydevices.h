@@ -1,7 +1,7 @@
 #ifndef MYDEVICES_H
 #define MYDEVICES_H
 #define luminosite_environnement 200 //200 lux
-#define distance_ultrason 5 //5cm
+#define distance_ultrason 5.0 //5cm
 
 #include <iostream>
 #include <thread>
@@ -60,12 +60,14 @@ class AnalogActuatorServo: public Device
 
 class AnalogSensorUltrason: public Device
 {
+  protected:
+    float barriere=distance_ultrason;
   private:
     int state;
     float prox;
   public:
-    //Constructeur. d represente la distance "frontiere", t le temps de rafraichissement
-    AnalogSensorUltrason(int d, int t);
+    //Constructeur
+    AnalogSensorUltrason();
     //thread representant le capteur et permettant de fonctionner independamment de la board - va faire un refresh toutes les .5sec de la distance enregistrée par les ultrasons
     virtual void run();
 };
@@ -77,9 +79,11 @@ class DigitalActuatorValve: public Device
     int state;
     //debit sortant en pourcentage (0 : pas d'ecoulement, 1 : ecoulement max)
     float flow;
+    //temps de refresh / delay
+    int temps;
   public:
     //Constructeur
-    DigitalActuatorValve();
+    DigitalActuatorValve(int t);
     //thread representatn l'actionneur et permettant de fonctionner independamment de la board - va permettre l'ouverture/la fermeture de la valve (pour la distribution d'eau)
     virtual void run();
 };
