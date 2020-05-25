@@ -41,7 +41,7 @@ void I2CActuatorScreen::run(){
 //classe AnalogActuatorServo
 AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
 
-void AnalogActuatorServo::service()
+void AnalogActuatorServo::service() //à "déplacer" dans run()
 {
   sens=1;
   angle=90;
@@ -59,11 +59,15 @@ void AnalogActuatorServo::run()
 {
   while(1) //inclure un peu de "dynamique" dans la simulation
   {
-    if (angle>etatAngle) //etatAngle=[-90,+90]
-      etatAngle++;
-    else if (angle<etatAngle)
-      etatAngle--;
-    sleep(0.1);
+    if (ptrmem!=NULL)
+    {
+      angle=
+      if (angle>etatAngle) //etatAngle=[-90,+90]
+        etatAngle++;
+      else if (angle<etatAngle)
+        etatAngle--;
+      sleep(0.1);
+    }
   }
 }
 
@@ -71,4 +75,21 @@ void AnalogActuatorServo::run()
 AnalogSensorUltrason::AnalogSensorUltrason():Device(), prox(100){}
 
 //classe DigitalActuatorValve
-DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(0){} 
+DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(LOW){} 
+
+float DigitalActuatorValve::AfficheFlow() //plus necessaire du coup ?
+{
+  return(flow);
+}
+
+void DigitalActuatorValve::run()
+{
+  while(1)
+  {
+    if(ptrmem!=NULL)
+      flow=*ptrmem;
+    else
+      cout<<"Etat Valve = "<<flow<<endl;
+      sleep(refresh);    
+  }
+}
