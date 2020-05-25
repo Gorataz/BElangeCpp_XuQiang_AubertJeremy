@@ -86,11 +86,6 @@ void AnalogSensorUltrason::run()
 //classe DigitalActuatorValve
 DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(LOW){} 
 
-float DigitalActuatorValve::AfficheFlow() //plus necessaire du coup ?
-{
-  return(flow);
-}
-
 void DigitalActuatorValve::run()
 {
   while(1)

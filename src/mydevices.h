@@ -87,8 +87,6 @@ class DigitalActuatorValve: public Device
   public:
     //Constructeur
     DigitalActuatorValve(int t);
-    //Methode permettant le retour du flux d'eau du robinet -- Non! le retour se fait via le run()
-    float AfficheFlow();
     //thread representatn l'actionneur et permettant de fonctionner independamment de la board - va permettre l'ouverture/la fermeture de la valve (pour la distribution d'eau)
     virtual void run();
 };
