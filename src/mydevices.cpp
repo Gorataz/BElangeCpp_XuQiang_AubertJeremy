@@ -43,4 +43,7 @@ AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
 
 
 //classe AnalogSensorUltrason
-AnalogSensorUltrason::AnalogSensorUltrason():Device(), 
+AnalogSensorUltrason::AnalogSensorUltrason():Device(), prox(100){}
+
+//classe DigitalActuatorValve
+DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(0){} 

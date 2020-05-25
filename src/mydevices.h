@@ -63,7 +63,6 @@ class AnalogSensorUltrason: public Device
   protected:
     float barriere=distance_ultrason;
   private:
-    int state;
     float prox;
   public:
     //Constructeur
@@ -75,12 +74,10 @@ class AnalogSensorUltrason: public Device
 class DigitalActuatorValve: public Device
 {
   private:
-    //etat ouvert (HIGH) ou fermer (LOW) de la vavle
-    int state;
     //debit sortant en pourcentage (0 : pas d'ecoulement, 1 : ecoulement max)
     float flow;
     //temps de refresh / delay
-    int temps;
+    int refresh;
   public:
     //Constructeur
     DigitalActuatorValve(int t);
