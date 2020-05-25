@@ -67,6 +67,8 @@ class AnalogSensorUltrason: public Device
   public:
     //Constructeur
     AnalogSensorUltrason();
+    //Methode permettant le retour de distance
+    int AfficheDistance();
     //thread representant le capteur et permettant de fonctionner independamment de la board - va faire un refresh toutes les .5sec de la distance enregistrée par les ultrasons
     virtual void run();
 };
