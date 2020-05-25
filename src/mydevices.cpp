@@ -61,7 +61,7 @@ void AnalogActuatorServo::run()
   {
     if (ptrmem!=NULL)
     {
-      angle=
+      angle=*ptrmem;
       if (angle>etatAngle) //etatAngle=[-90,+90]
         etatAngle++;
       else if (angle<etatAngle)
@@ -73,6 +73,15 @@ void AnalogActuatorServo::run()
 
 //classe AnalogSensorUltrason
 AnalogSensorUltrason::AnalogSensorUltrason():Device(), prox(100){}
+
+void AnalogSensorUltrason::run()
+{
+  while(1)
+  {
+    *ptrmem=prox;
+    sleep(1);
+  }
+}
 
 //classe DigitalActuatorValve
 DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(LOW){} 
@@ -88,8 +97,10 @@ void DigitalActuatorValve::run()
   {
     if(ptrmem!=NULL)
       flow=*ptrmem;
+    if (flow)
+      cout<<"(((Valve ouverte))"<<endl;
     else
-      cout<<"Etat Valve = "<<flow<<endl;
-      sleep(refresh);    
+      cout<<"(((Valve fermée)))"<<endl;    
+    sleep(refresh);    
   }
 }

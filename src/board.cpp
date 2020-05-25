@@ -8,9 +8,11 @@ int main(){
   // achat des senseurs et actionneurs
   DigitalActuatorLED led1(DELAY);
   I2CActuatorScreen screen;
+  DigitalActuatorValve valve(DELAY);
   
   // branchement des capteurs actionneurs
   esp8266.pin(0,led1);
+  esp8266.pin(2,valve);
   
   // allumage de la carte
   esp8266.run();

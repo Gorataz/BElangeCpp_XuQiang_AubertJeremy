@@ -123,9 +123,9 @@ public:
     void digitalWrite(int i, int l);
     // fonction arduino : lecture digital sur une pin
     int digitalRead(int i);
-     // fonction arduino : lecture analogique sur une pin
+     // fonction arduino : ecriture analogique sur une pin
     void analogWrite(int i, int l);
-   // fonction arduino : ecriture analogique sur une pin
+   // fonction arduino : lecture analogique sur une pin
     int analogRead(int i);
   // fonction arduino : initialisation de la carte arduino
   void setup();
