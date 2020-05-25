@@ -47,13 +47,17 @@ class AnalogActuatorServo: public Device
   private:
     //sens de rotation du servomoteur
     int sens;
-    //angle de rotation du servomoteur
+    //angle de rotation du servomoteur - commande
     int angle; 
+    //angle de rotation du servomoteur - etat
+    int etatAngle;
   public:
     //constructeur
     AnalogActuatorServo();
     //thread permettant d'actionner la commande de distribution de savon
     void service();
+    //Methode permettant le retour de l'etat
+    int AfficheEtat();
     //thread representant l'actionneur et permettant de fonctionner independamment de la board
     virtual void run();
 };

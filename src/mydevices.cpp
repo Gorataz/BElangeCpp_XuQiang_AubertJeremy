@@ -41,6 +41,31 @@ void I2CActuatorScreen::run(){
 //classe AnalogActuatorServo
 AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
 
+void AnalogActuatorServo::service()
+{
+  sens=1;
+  angle=90;
+  sleep(2);
+  sens=0;
+  angle=0;
+}
+
+int AnalogActuatorServo::AfficheEtat() //pour utiliser dans sketch_ino.cpp
+{
+  return(etatAngle);
+}
+
+void AnalogActuatorServo::run()
+{
+  while(1) //inclure un peu de "dynamique" dans la simulation
+  {
+    if (angle>etatAngle) //etatAngle=[-90,+90]
+      etatAngle++;
+    else if (angle<etatAngle)
+      etatAngle--;
+    sleep(0.1);
+  }
+}
 
 //classe AnalogSensorUltrason
 AnalogSensorUltrason::AnalogSensorUltrason():Device(), prox(100){}
