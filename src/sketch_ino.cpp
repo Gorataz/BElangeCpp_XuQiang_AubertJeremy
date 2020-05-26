@@ -15,11 +15,13 @@ void Board::setup(){
 void Board::loop()
 {
   //Rajout d'un delai de 1s afin d'avoir les bonnes valeurs des capteurs au debut. 
-  sleep(1);
+  sleep(0.5);
 
   float static proxSavon(1000);
   float static proxEau(1000);
-  int etatValve(0); //0 si fermer, 1 sinon
+  int static etatValve(0); //0 si fermer, 1 sinon
+  int static etatClignoteLED(0); //état ON/OFF pour faire clignoter la LED
+  int static clignoteLED(0); //compteur pour faire clignoter la LED pendant 20 sec
 
   proxSavon=analogRead(1);
   proxEau=analogRead(3);
@@ -30,6 +32,7 @@ void Board::loop()
     //commande 1 du servomoteur
     sleep(2);
     //comande 2 du servomoteur
+    etatClignoteLED=1; //on active la séquence de clignotage
   }
   else if (proxEau<10)
   {
@@ -42,8 +45,30 @@ void Board::loop()
     digitalWrite(2,LOW);
     etatValve=0;
   }
-  else
-    cout<<"R.A.S"<<endl;
   
+  //Séquence de clignotage
+  if (!clignoteLED%2 && etatClignoteLED)
+  {
+    digitalWrite(0,HIGH);
+    clignoteLED++;
+  }
+  else if (clignoteLED%2 && etatClignoteLED)
+  {
+    digitalWrite(0,LOW);
+    clignoteLED++;
+  }
+  //fin séquence clignotage
+
+  //Les 20 secondes sont passées, on laisse la LED à l'état haut et on réinitialise les variables
+  if (clignoteLED==40)
+  {
+    digitalWrite(0,HIGH);
+    etatClignoteLED=0;
+    clignoteLED=0;
+  }
+
+  cout<<etatClignoteLED<<endl;
+  cout<<clignoteLED<<endl;
+    
 }
 
