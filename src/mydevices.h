@@ -55,7 +55,7 @@ class AnalogActuatorServo: public Device //Oulala c'est compliqué..............
     //constructeur
     AnalogActuatorServo();
     //thread permettant d'actionner la commande de distribution de savon
-    void service();
+    void service(int sens, int angle);
     //Methode permettant le retour de l'etat
     int AfficheEtat();
     //thread representant l'actionneur et permettant de fonctionner independamment de la board
@@ -90,5 +90,6 @@ class DigitalActuatorValve: public Device //it's over DigitalActuatorValve, I ha
     //thread representant l'actionneur et permettant de fonctionner independamment de la board - va permettre l'ouverture/la fermeture de la valve (pour la distribution d'eau)
     virtual void run();
 };
+
 
 #endif

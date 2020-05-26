@@ -174,3 +174,58 @@ void Board::i2c(int addr,Device& dev){
   tabthreadbus[addr]=new thread(&Device::run,&dev);
 }
 
+//Classe MyApplication
+MyApplication::MyApplication():nbSensor(0),returnSensor(0),etatProxEau(0),etatProxSavon(0),etatClignotage(0),cptLED(0){}
+
+vector<int> MyApplication::toDo(vector<float> const& returnSensor) //Dans cette version, on ne prends pas en compte 
+{
+  vector<int> commandTab;
+
+  if (returnSensor[0]<10 && !etatProxSavon) //activer la distribution de savon
+  {
+    commandTab.push_back(1);
+    etatProxSavon=1; //1 signifie qu'il qu'on a été à une distance <10cm
+    etatClignotage=1; //on démarre la séquence de clignotage de la LED
+  }
+  if (returnSensor[1]<10 && !etatProxEau) //démarrer l'écoulement de l'eau
+  {
+    commandTab.push_back(3);
+    etatProxEau=1;
+  }
+  if (returnSensor[1]>10 && etatProxEau) //arrêter l'écoulement de l'eau
+  {
+    commandTab.push_back(4);
+    etatProxEau=0;
+  }
+  if (returnSensor[0]>10 && etatProxSavon) //arrêter la distribution de savon
+  {
+    commandTab.push_back(5);
+    etatProxSavon=0;
+  }
+  if (etatClignotage && cptLED==40) //arrêt du clignotage et la LED reste allumée
+  {
+    commandTab.push_back(6);
+    etatClignotage=0;
+    cptLED=0;
+  }
+  if (etatClignotage) //gestion du clignotage
+  {
+    if (!cptLED%2)
+      commandTab.push_back(6);
+    if (cptLED%2)
+      commandTab.push_back(7);
+    cptLED++;
+  }
+
+  return (commandTab);
+}
+
+/*
+Tableau des commandes :
+1 -> DebutDistributionSavon     (=sens 1, angle 90)
+3 -> OuvertureEau               (=flow HIGH)
+4 -> FermetureEau               (=flow LOW)
+5 -> FinDistributionSavon       (=sens 0, angle 0)
+6 -> LED allummée
+7 -> LED éteinte
+*/

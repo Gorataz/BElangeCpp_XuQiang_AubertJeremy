@@ -14,61 +14,49 @@ void Board::setup(){
 // la boucle de controle arduino
 void Board::loop()
 {
+  MyApplication myApp;
+
   //Rajout d'un delai de 1s afin d'avoir les bonnes valeurs des capteurs au debut. 
-  sleep(0.5);
+  sleep(1);
 
   float static proxSavon(1000);
   float static proxEau(1000);
-  int static etatValve(0); //0 si fermer, 1 sinon
-  int static etatClignoteLED(0); //état ON/OFF pour faire clignoter la LED
-  int static clignoteLED(0); //compteur pour faire clignoter la LED pendant 20 sec
+  vector<int> commandTab;
+  vector<float> returnSensor;
+  int i(0);
 
   proxSavon=analogRead(1);
+  returnSensor.push_back(proxSavon);
   proxEau=analogRead(3);
+  returnSensor.push_back(proxEau);
 
-  if (proxSavon<10)
+  commandTab=myApp.toDo(returnSensor);
+
+  //
+  for (i;i<commandTab.size();i++)
   {
-    cout<<"Nous sommes dans la boucle 1"<<endl;
-    //commande 1 du servomoteur
-    sleep(2);
-    //comande 2 du servomoteur
-    etatClignoteLED=1; //on active la séquence de clignotage
-  }
-  else if (proxEau<10)
-  {
-    digitalWrite(2,HIGH);
-    etatValve=1;
-    sleep(5);
-  }
-  else if (proxEau>10 && etatValve)
-  {
-    digitalWrite(2,LOW);
-    etatValve=0;
+    switch(commandTab[i])
+    {
+      case 1:
+        //servomoteur
+        break;
+      case 3:
+        digitalWrite(2,HIGH);
+        break;
+      case 4:
+        digitalWrite(2,LOW);
+        break;
+      case 5:
+        //servomoteur
+        break;
+      case 6:
+        digitalWrite(0,HIGH);
+        break;
+      case 7:
+        digitalWrite(0,LOW);
+        break;
+    }
   }
   
-  //Séquence de clignotage
-  if (!clignoteLED%2 && etatClignoteLED)
-  {
-    digitalWrite(0,HIGH);
-    clignoteLED++;
-  }
-  else if (clignoteLED%2 && etatClignoteLED)
-  {
-    digitalWrite(0,LOW);
-    clignoteLED++;
-  }
-  //fin séquence clignotage
-
-  //Les 20 secondes sont passées, on laisse la LED à l'état haut et on réinitialise les variables
-  if (clignoteLED==40)
-  {
-    digitalWrite(0,HIGH);
-    etatClignoteLED=0;
-    clignoteLED=0;
-  }
-
-  cout<<etatClignoteLED<<endl;
-  cout<<clignoteLED<<endl;
-    
 }
 

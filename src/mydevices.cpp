@@ -41,13 +41,10 @@ void I2CActuatorScreen::run(){
 //classe AnalogActuatorServo
 AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
 
-void AnalogActuatorServo::service() //à "déplacer" dans run()
+void AnalogActuatorServo::service(int cmdSens, int cmdAngle) //à "déplacer" dans run()
 {
-  sens=1;
-  angle=90;
-  sleep(2);
-  sens=0;
-  angle=0;
+  sens=cmdSens;
+  angle=cmdAngle; 
 }
 
 int AnalogActuatorServo::AfficheEtat() //pour utiliser dans sketch_ino.cpp
@@ -93,9 +90,10 @@ void DigitalActuatorValve::run()
     if(ptrmem!=NULL) //Permet le DigitalWrite
       flow=*ptrmem;
     if (flow) //Permet de visualiser la chose
-      cout<<"(((Valve ouverte))"<<endl;
+      cout<<"(((Valve ouverte)))"<<endl;
     else
       cout<<"(((Valve fermée)))"<<endl;    
     sleep(refresh);    
   }
 }
+

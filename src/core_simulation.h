@@ -13,6 +13,8 @@
 #include <string>
 #include <thread>
 #include <mutex>
+#include <vector>
+
 
 #define DELAY 3
 #define TEMP 22
@@ -132,6 +134,22 @@ public:
     // fonction arduino : boucle de controle de la carte arduino
   void loop();
 };
+
+
+class MyApplication
+{
+  private:
+    int nbSensor;
+    int *returnSensor;
+    float etatProxEau;
+    float etatProxSavon;
+    int etatClignotage;
+    int cptLED;
+  public:
+    MyApplication();
+    vector<int> toDo(vector<float> const& returnSensor);
+};
+
 
 #endif
 
