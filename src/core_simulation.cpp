@@ -175,11 +175,13 @@ void Board::i2c(int addr,Device& dev){
 }
 
 //Classe MyApplication
-MyApplication::MyApplication():nbSensor(0),returnSensor(0),etatProxEau(0),etatProxSavon(0),etatClignotage(0),cptLED(0){}
+MyApplication::MyApplication():returnSensor(0),etatProxEau(0),etatProxSavon(0){}
 
 vector<int> MyApplication::toDo(vector<float> const& returnSensor) //Dans cette version, on ne prends pas en compte 
 {
   vector<int> commandTab;
+  int compteurLED=returnSensor[returnSensor.size()-2];
+  int etatClignotage=returnSensor[returnSensor.size()-1];
 
   if (returnSensor[0]<10 && !etatProxSavon) //activer la distribution de savon
   {
@@ -192,33 +194,37 @@ vector<int> MyApplication::toDo(vector<float> const& returnSensor) //Dans cette 
     commandTab.push_back(3);
     etatProxEau=1;
   }
-  if (returnSensor[1]>10 && etatProxEau) //arrêter l'écoulement de l'eau
+  if (returnSensor[1]>10 && !etatProxEau) //arrêter l'écoulement de l'eau
   {
     commandTab.push_back(4);
     etatProxEau=0;
   }
-  if (returnSensor[0]>10 && etatProxSavon) //arrêter la distribution de savon
+  if (returnSensor[0]>10 && !etatProxSavon) //arrêter la distribution de savon
   {
     commandTab.push_back(5);
     etatProxSavon=0;
   }
-  if (etatClignotage && cptLED==40) //arrêt du clignotage et la LED reste allumée
+  if (etatClignotage && compteurLED==20) //arrêt du clignotage et la LED reste allumée
   {
     commandTab.push_back(6);
     etatClignotage=0;
-    cptLED=0;
+    compteurLED=0;
   }
   if (etatClignotage) //gestion du clignotage
   {
-    if (!cptLED%2)
+    if (compteurLED%2==0)
       commandTab.push_back(6);
-    if (cptLED%2)
+    if (compteurLED%2==1)
       commandTab.push_back(7);
-    cptLED++;
+    compteurLED++;
   }
-
+  commandTab.push_back(compteurLED);
+  commandTab.push_back(etatClignotage);
+  //cout<<"CHECK myApplication -> ultrason savon = "<<returnSensor[0]<<" , etatProxSavon = "<<etatProxSavon<<endl;
+  //cout<<"CHECK myApplication -> etatProxSavon = "<<etatProxSavon<<" ,cptLED = "<<compteurLED<<" ,etatClignotage = "<<etatClignotage<<endl;
   return (commandTab);
 }
+
 
 /*
 Tableau des commandes :
@@ -228,4 +234,10 @@ Tableau des commandes :
 5 -> FinDistributionSavon       (=sens 0, angle 0)
 6 -> LED allummée
 7 -> LED éteinte
+
+Variables externes :
+AnalogRead ultrason savon
+AnalogRead ultrason eau
+compteurLED
+etatClignotage
 */

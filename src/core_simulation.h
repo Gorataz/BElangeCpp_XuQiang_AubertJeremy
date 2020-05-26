@@ -14,9 +14,11 @@
 #include <thread>
 #include <mutex>
 #include <vector>
+#include <fstream>
 
 
 #define DELAY 3
+#define TIMER_SENSOR 1
 #define TEMP 22
 #define HIGH 1
 #define LOW 0
@@ -139,12 +141,9 @@ public:
 class MyApplication
 {
   private:
-    int nbSensor;
     int *returnSensor;
     float etatProxEau;
     float etatProxSavon;
-    int etatClignotage;
-    int cptLED;
   public:
     MyApplication();
     vector<int> toDo(vector<float> const& returnSensor);

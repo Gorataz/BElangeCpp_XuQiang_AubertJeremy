@@ -10,6 +10,7 @@
 #include "core_simulation.h"
 
 
+
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
 private:
@@ -51,13 +52,11 @@ class AnalogActuatorServo: public Device //Oulala c'est compliqué..............
     int angle; 
     //angle de rotation du servomoteur - etat
     int etatAngle;
+    //
+    int refresh;
   public:
     //constructeur
-    AnalogActuatorServo();
-    //thread permettant d'actionner la commande de distribution de savon
-    void service(int sens, int angle);
-    //Methode permettant le retour de l'etat
-    int AfficheEtat();
+    AnalogActuatorServo(int t);
     //thread representant l'actionneur et permettant de fonctionner independamment de la board
     virtual void run();
 };
@@ -68,9 +67,11 @@ class AnalogSensorUltrason: public Device
     float barriere=distance_ultrason;
   private:
     float prox;
+    int serial; //distinguer les deux ultrasons -> 1 : savon, 2 : eau
+    string fichier;
   public:
     //Constructeur
-    AnalogSensorUltrason();
+    AnalogSensorUltrason(string nomFichierUser);
     //Methode permettant le retour de distance
     int AfficheDistance();
     //thread representant le capteur et permettant de fonctionner independamment de la board - va faire un refresh toutes les .5sec de la distance enregistrée par les ultrasons

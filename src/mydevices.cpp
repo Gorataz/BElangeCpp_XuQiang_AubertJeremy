@@ -13,13 +13,14 @@ int DigitalActuatorLED::StateLED()
 }
 
 void DigitalActuatorLED::run(){
-  while(1){
+  while(1)
+  {
     if(ptrmem!=NULL)
       state=*ptrmem;
     if (state==LOW)
-      cout << "((((eteint))))\n";
+      cout << "LED OFF  ○○○○○○○○○○○○"<<endl;
     else
-    cout << "((((allume))))\n";
+      cout << "LED ON •••••••••••"<<endl;
     sleep(temps);
     }
 }
@@ -39,49 +40,51 @@ void I2CActuatorScreen::run(){
 }
 
 //classe AnalogActuatorServo
-AnalogActuatorServo::AnalogActuatorServo():Device(),sens(0),angle(0){}
+AnalogActuatorServo::AnalogActuatorServo(int t):Device(),sens(0),angle(0),etatAngle(0),refresh(t){}
 
-void AnalogActuatorServo::service(int cmdSens, int cmdAngle) //à "déplacer" dans run()
-{
-  sens=cmdSens;
-  angle=cmdAngle; 
-}
-
-int AnalogActuatorServo::AfficheEtat() //pour utiliser dans sketch_ino.cpp
-{
-  return(etatAngle);
-}
-
-void AnalogActuatorServo::run()
+void AnalogActuatorServo::run() // Question : on a eu un problème avec la valeur dans angle, ça a été résolu en écrivant UNE FOIS un analogWrite, puis on l'a supprimé et on avait bien au final l'angle à 0...
 {
   while(1) //inclure un peu de "dynamique" dans la simulation
   {
     if (ptrmem!=NULL)
     {
       angle=*ptrmem;
-      if (angle>etatAngle) //etatAngle=[-90,+90]
-        etatAngle++;
-      else if (angle<etatAngle)
-        etatAngle--;
-      sleep(0.1);
     }
+    if (angle>etatAngle && etatAngle<90) //etatAngle=[-90,+90]
+    {
+      etatAngle+=10;
+      sens=1;
+    }
+    else if (angle<etatAngle && etatAngle>0)
+    {
+      etatAngle-=10;
+      sens=0;
+    }
+    cout<<"Sens servo : "<<sens<<endl;
+    cout<<" "<<endl;
+    cout<<"Angle servo : "<<etatAngle<<endl;
+    sleep(refresh);
   }
 }
 
 //classe AnalogSensorUltrason
-AnalogSensorUltrason::AnalogSensorUltrason():Device(), prox(100){}
+AnalogSensorUltrason::AnalogSensorUltrason(string nomFichierUser):Device(), prox(100), fichier(nomFichierUser){}
 
 void AnalogSensorUltrason::run()
 {
   while(1)
   {
+    if(ifstream(fichier))
+      prox=5;
+    else
+      prox=100;
     *ptrmem=prox;
     sleep(1);
   }
 }
 
 //classe DigitalActuatorValve
-DigitalActuatorValve::DigitalActuatorValve(int t):Device(),refresh(t),flow(LOW){} 
+DigitalActuatorValve::DigitalActuatorValve(int t):Device(),flow(LOW),refresh(t){} 
 
 void DigitalActuatorValve::run()
 {
@@ -89,10 +92,10 @@ void DigitalActuatorValve::run()
   {
     if(ptrmem!=NULL) //Permet le DigitalWrite
       flow=*ptrmem;
-    if (flow) //Permet de visualiser la chose
-      cout<<"(((Valve ouverte)))"<<endl;
-    else
-      cout<<"(((Valve fermée)))"<<endl;    
+    if (flow==HIGH) 
+      cout<<"Valve open ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"<<endl;
+    else if (flow==LOW)
+      cout<<"Valve close ░░░░░░░░░░░░░░░"<<endl;    
     sleep(refresh);    
   }
 }
