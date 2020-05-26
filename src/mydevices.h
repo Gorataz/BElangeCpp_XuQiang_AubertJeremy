@@ -42,7 +42,7 @@ public:
   virtual void run();
 };
 
-class AnalogActuatorServo: public Device
+class AnalogActuatorServo: public Device //Oulala c'est compliqué..........................
 {
   private:
     //sens de rotation du servomoteur
@@ -62,7 +62,7 @@ class AnalogActuatorServo: public Device
     virtual void run();
 };
 
-class AnalogSensorUltrason: public Device
+class AnalogSensorUltrason: public Device 
 {
   protected:
     float barriere=distance_ultrason;
@@ -77,7 +77,7 @@ class AnalogSensorUltrason: public Device
     virtual void run();
 };
 
-class DigitalActuatorValve: public Device
+class DigitalActuatorValve: public Device //it's over DigitalActuatorValve, I have the high pointer
 {
   private:
     //debit sortant (LOW : pas d'ecoulement, HIGH : ecoulement max)
@@ -87,7 +87,7 @@ class DigitalActuatorValve: public Device
   public:
     //Constructeur
     DigitalActuatorValve(int t);
-    //thread representatn l'actionneur et permettant de fonctionner independamment de la board - va permettre l'ouverture/la fermeture de la valve (pour la distribution d'eau)
+    //thread representant l'actionneur et permettant de fonctionner independamment de la board - va permettre l'ouverture/la fermeture de la valve (pour la distribution d'eau)
     virtual void run();
 };
 

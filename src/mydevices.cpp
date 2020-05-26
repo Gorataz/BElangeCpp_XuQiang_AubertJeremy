@@ -90,9 +90,9 @@ void DigitalActuatorValve::run()
 {
   while(1)
   {
-    if(ptrmem!=NULL)
+    if(ptrmem!=NULL) //Permet le DigitalWrite
       flow=*ptrmem;
-    if (flow)
+    if (flow) //Permet de visualiser la chose
       cout<<"(((Valve ouverte))"<<endl;
     else
       cout<<"(((Valve fermée)))"<<endl;    

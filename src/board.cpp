@@ -9,10 +9,14 @@ int main(){
   DigitalActuatorLED led1(DELAY);
   I2CActuatorScreen screen;
   DigitalActuatorValve valve(DELAY);
+  AnalogSensorUltrason proxSavon;
+  AnalogSensorUltrason proxEau;
   
   // branchement des capteurs actionneurs
   esp8266.pin(0,led1);
   esp8266.pin(2,valve);
+  esp8266.pin(1,proxSavon);
+  esp8266.pin(3,proxEau);
   
   // allumage de la carte
   esp8266.run();
